@@ -3,11 +3,22 @@
 public class Ball : MonoBehaviour
 {
     [SerializeField] float _speed = 30f;
+    private Rigidbody2D _rigidbody2D;
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Rigidbody2D>().velocity =
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _rigidbody2D.velocity =
             Vector2.right * _speed;
+    }
+
+    public void Reset()
+    {
+        // Paramos la pelota completamente (no se mueve)
+        _rigidbody2D.velocity = Vector2.zero;
+
+        // Mover la pelota al punto central
+        _rigidbody2D.transform.position = new Vector2(0, 0);
     }
 
 
@@ -33,7 +44,7 @@ public class Ball : MonoBehaviour
 
             Vector2 direction = new Vector2(x, y).normalized;
 
-            GetComponent<Rigidbody2D>().velocity = direction * _speed;
+            _rigidbody2D.velocity = direction * _speed;
         } else
         {
             Debug.Log("Colisiona con otro elemento");

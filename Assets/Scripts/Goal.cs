@@ -19,5 +19,7 @@ public class Goal : MonoBehaviour
             Debug.Log("Derecha recibe gol. Izquierda marca gol");
             _gameManager.ScoreBoard[0] += 1;
         }
+        _gameManager.ChangeScoreBoard();
+        _gameManager.ResetBallPosition();
     }
 }
