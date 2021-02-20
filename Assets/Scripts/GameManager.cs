@@ -12,6 +12,52 @@ public class GameManager : MonoBehaviour
         set
         {
             _scoreBoard = value;
+            if (_scoreBoard[0] == ScoreObjective ||
+                _scoreBoard[1] == ScoreObjective)
+            {
+                FinishMatch = true;
+                StartGamePlay = false;
+                ScoreBoard[0] = 0;
+                ScoreBoard[1] = 0;
+                ChangeScoreBoard();
+            }
+        }
+    }
+    [SerializeField] bool _ballOnPlay = false;
+    public bool BallOnPlay
+    {
+        get => _ballOnPlay;
+        set
+        {
+            _ballOnPlay = value;
+            if (_ballOnPlay)
+            {
+                Debug.Log("Empezamos a lanzar la bola");
+                _ballObject.Launch();
+            }
+        }
+    }
+    [SerializeField] bool _startGamePlay = false;
+    public bool StartGamePlay
+    {
+        get => _startGamePlay;
+        set
+        {
+            _startGamePlay = value; 
+        }
+    }
+    [SerializeField] byte _scoreObjective = 10;
+    public byte ScoreObjective
+    {
+        get => _scoreObjective;
+    }
+    [SerializeField] bool _finishMatch = false;
+    public bool FinishMatch
+    {
+        get => _finishMatch;
+        set
+        {
+            _finishMatch = value;
         }
     }
     // Start is called before the first frame update
@@ -28,16 +74,26 @@ public class GameManager : MonoBehaviour
     public void ChangeScoreBoard()
     {
         _scoreBoardText.text = $"{_scoreBoard[0]}           {_scoreBoard[1]}";
+        BallOnPlay = false;
     }
 
-    public void ResetBallPosition()
+    public void ResetBallPosition(sbyte nextDirection)
     {
-        _ballObject.Reset();
+        _ballObject.Reset(nextDirection);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space) && !BallOnPlay)
+        {
+            Debug.Log("Pulsamos espacio");
+            StartGame();
+        }
+    }
+
+    public void StartGame()
+    {
+        BallOnPlay = true;
     }
 }

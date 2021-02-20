@@ -952,6 +952,10 @@ MonoBehaviour:
   _scoreBoard: 0000
   _ballObject: {fileID: 1935840966}
   _scoreBoardText: {fileID: 1822655435}
+  _ballOnPlay: 0
+  _startGamePlay: 0
+  _scoreObjective: 10
+  _finishMatch: 0
 --- !u!4 &1941272615
 Transform:
   m_ObjectHideFlags: 0

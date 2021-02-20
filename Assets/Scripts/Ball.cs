@@ -4,21 +4,45 @@ public class Ball : MonoBehaviour
 {
     [SerializeField] float _speed = 30f;
     private Rigidbody2D _rigidbody2D;
+    private GameManager _gameManager;
+    private sbyte _nextDirection;
     // Start is called before the first frame update
     void Start()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
+    }
+    public void Launch()
+    {
+        if (!_gameManager.StartGamePlay)
+        {
+            Debug.Log("EMPEZANDO LA PARTIDA POR PRIMERA VEZ");
+            _gameManager.StartGamePlay = true;
+            _gameManager.FinishMatch = false;
+
+            // Determinar dirección inicial de manera aleatoria
+            float randomValue = Random.Range(0f, 1f);
+
+            // Especificando la dirección
+            _nextDirection = (sbyte)((randomValue <= 0.5f) ? 1 : -1);
+
+            Debug.Log(randomValue);
+            Debug.Log(_nextDirection);
+
+        }
         _rigidbody2D.velocity =
-            Vector2.right * _speed;
+            new Vector2(_nextDirection, 0) * _speed;
     }
 
-    public void Reset()
+    public void Reset(sbyte nextDirection)
     {
         // Paramos la pelota completamente (no se mueve)
         _rigidbody2D.velocity = Vector2.zero;
 
         // Mover la pelota al punto central
         _rigidbody2D.transform.position = new Vector2(0, 0);
+        // Añadir dirección en la que irá después de un gol
+        _nextDirection = nextDirection;
     }
 
 
