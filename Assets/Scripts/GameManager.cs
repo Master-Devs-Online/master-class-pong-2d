@@ -3,9 +3,11 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] byte[] _scoreBoard = new byte[2];
+    [SerializeField] GameObject _centerPoints;
+    [SerializeField] GameObject[] racketsObjects = new GameObject[2];
     [SerializeField] Ball _ballObject;
     [SerializeField] Text _scoreBoardText;
+    [SerializeField] byte[] _scoreBoard = new byte[2];
     public byte [] ScoreBoard
     {
         get => _scoreBoard;
@@ -15,11 +17,12 @@ public class GameManager : MonoBehaviour
             if (_scoreBoard[0] == ScoreObjective ||
                 _scoreBoard[1] == ScoreObjective)
             {
-                FinishMatch = true;
-                StartGamePlay = false;
-                ScoreBoard[0] = 0;
-                ScoreBoard[1] = 0;
-                ChangeScoreBoard();
+                string winnerText = (ScoreBoard[0] > ScoreBoard[1]) ?
+                    "JUGADOR 1" : "JUGADOR 2";
+                string finishMessage = $"{ScoreBoard[0]} - {ScoreBoard[1]}\n" +
+                    $"GANADOR: {winnerText}";
+                SetInitialValues();
+                SetScoreBoardText(finishMessage);
             }
         }
     }
@@ -68,13 +71,36 @@ public class GameManager : MonoBehaviour
         _scoreBoard[0] = 0;
         _scoreBoard[1] = 0;
         _scoreBoardText = FindObjectOfType<Text>();
-        ChangeScoreBoard();
+        _centerPoints.SetActive(false);
+        SetScoreBoardText("Para comenzar Pulsad ESCAPE");
+    }
+
+    public void SetInitialValues()
+    {
+        _centerPoints.SetActive(false);
+        StartGamePlay = false;
+        BallOnPlay = false;
+        FinishMatch = true;
+        ScoreBoard[0] = 0;
+        ScoreBoard[1] = 0;
+        SetRacketInitialPosition();
+    }
+
+    private void SetRacketInitialPosition()
+    {
+        racketsObjects[0].transform.position = new Vector2(-64, 0);
+        racketsObjects[1].transform.position = new Vector2(64, 0);
     }
 
     public void ChangeScoreBoard()
     {
-        _scoreBoardText.text = $"{_scoreBoard[0]}           {_scoreBoard[1]}";
+        SetScoreBoardText($"{_scoreBoard[0]}           {_scoreBoard[1]}");
         BallOnPlay = false;
+    }
+
+    public void SetScoreBoardText(string text)
+    {
+        _scoreBoardText.text = text;
     }
 
     public void ResetBallPosition(sbyte nextDirection)
@@ -95,5 +121,6 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         BallOnPlay = true;
+        _centerPoints.SetActive(true);
     }
 }

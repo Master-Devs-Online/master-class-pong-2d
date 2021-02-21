@@ -21,6 +21,8 @@ public class Ball : MonoBehaviour
             Debug.Log("EMPEZANDO LA PARTIDA POR PRIMERA VEZ");
             _gameManager.StartGamePlay = true;
             _gameManager.FinishMatch = false;
+            byte[] scoreBoard = _gameManager.ScoreBoard;
+            _gameManager.SetScoreBoardText($"{scoreBoard[0]}           {scoreBoard[1]}");
 
             // Determinar dirección inicial de manera aleatoria
             float randomValue = Random.Range(0f, 1f);
