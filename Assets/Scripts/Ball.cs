@@ -5,10 +5,12 @@ public class Ball : MonoBehaviour
     [SerializeField] float _speed = 30f;
     private Rigidbody2D _rigidbody2D;
     private GameManager _gameManager;
+    private AudioManager _audioManager;
     private sbyte _nextDirection;
     // Start is called before the first frame update
     void Start()
     {
+        _audioManager = FindObjectOfType<AudioManager>();
         _gameManager = FindObjectOfType<GameManager>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
@@ -58,6 +60,7 @@ public class Ball : MonoBehaviour
          */
         if (collision.gameObject.tag == "Racket")
         {
+            _audioManager.Play(Sounds.RACKET);
             // Obtenemos el valor del factor de impacto vertical
             float y = HitVerticalFactor(gameObject.transform.position.y,
             collision.gameObject.transform.position.y,
@@ -69,12 +72,15 @@ public class Ball : MonoBehaviour
             Vector2 direction = new Vector2(x, y).normalized;
 
             _rigidbody2D.velocity = direction * _speed;
-        } else
+        } 
+
+        if (collision.gameObject.tag == "Wall")
         {
-            Debug.Log("Colisiona con otro elemento");
+            _audioManager.Play(Sounds.WALL);
         }
 
-        
+
+
     }
 
     float HitVerticalFactor(

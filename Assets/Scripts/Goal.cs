@@ -3,13 +3,15 @@
 public class Goal : MonoBehaviour
 {
     private GameManager _gameManager;
-
+    private AudioManager _audioManager;
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        _audioManager = FindObjectOfType<AudioManager>();
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
+        _audioManager.Play(Sounds.GOAL);
         sbyte nextDirection = 0;
         byte[] scoreBoard = _gameManager.ScoreBoard;
         if (gameObject.name == "Left")
