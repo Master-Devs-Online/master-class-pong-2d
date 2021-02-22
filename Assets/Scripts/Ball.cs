@@ -6,16 +6,22 @@ public class Ball : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private GameManager _gameManager;
     private AudioManager _audioManager;
+    private TrailRenderer _trailRenderer;
     private sbyte _nextDirection;
     // Start is called before the first frame update
     void Start()
     {
+        _trailRenderer = GetComponent<TrailRenderer>();
         _audioManager = FindObjectOfType<AudioManager>();
         _gameManager = FindObjectOfType<GameManager>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
     public void Launch()
     {
+        // Emitir rastro de la bola
+        _trailRenderer.emitting = true;
+        _trailRenderer.time = 0.2f;
+
         if (!_gameManager.StartGamePlay)
         {
             Debug.Log("EMPEZANDO LA PARTIDA POR PRIMERA VEZ");
@@ -46,6 +52,12 @@ public class Ball : MonoBehaviour
         _rigidbody2D.transform.position = new Vector2(0, 0);
         // Añadir dirección en la que irá después de un gol
         _nextDirection = nextDirection;
+
+        // Configuraciones relacionadas al rastro
+
+        // Dejar de emitir
+        _trailRenderer.emitting = false;
+        _trailRenderer.time = 0f;
     }
 
 
