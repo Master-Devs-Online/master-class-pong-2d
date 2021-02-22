@@ -91,9 +91,6 @@ public class Ball : MonoBehaviour
         {
             _audioManager.Play(Sounds.WALL);
         }
-
-
-
     }
 
     float HitVerticalFactor(
