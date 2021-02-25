@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] GameObject[] _racketObjects = new GameObject[2];
     [SerializeField] byte[] _scoreBoard = new byte[2];
     [SerializeField] Ball _ballObject;
     [SerializeField] Text _scoreBoardText;
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
                 ScoreBoard[1] = 0;
                 SetScoreBoardText(finishMessage);
                 BallOnPlay = false;
+                SetRacketInitPosition();
             }
         }
     }
@@ -76,6 +78,12 @@ public class GameManager : MonoBehaviour
         _scoreBoard[1] = 0;
         _scoreBoardText = FindObjectOfType<Text>();
         SetScoreBoardText("Para comenzar Pulsad ESPACIO");
+    }
+
+    public void SetRacketInitPosition()
+    {
+        _racketObjects[0].transform.position = new Vector2(-64, 0);
+        _racketObjects[1].transform.position = new Vector2(64, 0);
     }
 
     public void SetScoreBoardText(string text)
