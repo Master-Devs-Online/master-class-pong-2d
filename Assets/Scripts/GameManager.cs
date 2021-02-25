@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
                 StartGamePlay = false;
                 ScoreBoard[0] = 0;
                 ScoreBoard[1] = 0;
+                SetScoreBoardText("FINALLLLLLLL");
             }
         }
     }
@@ -57,10 +58,6 @@ public class GameManager : MonoBehaviour
         set
         {
             _finishMatch = value;
-            if (_finishMatch)
-            {
-                SetScoreBoardText("FINALLLLLL");
-            }
         }
     }
     // Start is called before the first frame update
