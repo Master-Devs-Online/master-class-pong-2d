@@ -6,22 +6,25 @@ public class Ball : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private GameManager _gameManager;
     private AudioManager _audioManager;
+    private TrailRenderer _trailRenderer;
     private sbyte _nextDirection;
     // Start is called before the first frame update
     void Start()
     {
+        _trailRenderer = GetComponent<TrailRenderer>();
         _audioManager = FindObjectOfType<AudioManager>();
         _gameManager = FindObjectOfType<GameManager>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
     public void Launch()
     {
+        _trailRenderer.emitting = true;
+        _trailRenderer.time = 0.2f;
         if (!_gameManager.StartGamePlay)
         {
             Debug.Log("EMPEZANDO LA PARTIDA POR PRIMERA VEZ");
             _gameManager.StartGamePlay = true;
             _gameManager.FinishMatch = false;
-            _gameManager.ChangeScoreBoard();
 
             // Determinar dirección inicial de manera aleatoria
             float randomValue = Random.Range(0f, 1f);
@@ -39,6 +42,10 @@ public class Ball : MonoBehaviour
 
     public void Reset(sbyte nextDirection)
     {
+        // Deshabilitar la emisión del rastro
+        _trailRenderer.emitting = false;
+        _trailRenderer.time = 0f;
+
         // Paramos la pelota completamente (no se mueve)
         _rigidbody2D.velocity = Vector2.zero;
 
