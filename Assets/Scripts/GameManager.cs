@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] GameObject _centerPoints;
     [SerializeField] GameObject[] _racketObjects = new GameObject[2];
     [SerializeField] byte[] _scoreBoard = new byte[2];
     [SerializeField] Ball _ballObject;
@@ -16,19 +17,13 @@ public class GameManager : MonoBehaviour
             if (_scoreBoard[0] == ScoreObjective ||
                 _scoreBoard[1] == ScoreObjective)
             {
-                Debug.Log("FINALLLL");
                 // Mensaje final de partida
                 string winnerText = (ScoreBoard[0] > ScoreBoard[1]) ?
                     "JUGADOR 1" : "JUGADOR 2";
                 string finishMessage = $"{ScoreBoard[0]} - {ScoreBoard[1]}\n" +
                     $"GANADOR: {winnerText}";
-                FinishMatch = true;
-                StartGamePlay = false;
-                ScoreBoard[0] = 0;
-                ScoreBoard[1] = 0;
                 SetScoreBoardText(finishMessage);
-                BallOnPlay = false;
-                SetRacketInitPosition();
+                SetInitialValues();
             }
         }
     }
@@ -77,9 +72,20 @@ public class GameManager : MonoBehaviour
         _scoreBoard[0] = 0;
         _scoreBoard[1] = 0;
         _scoreBoardText = FindObjectOfType<Text>();
+        _centerPoints.SetActive(false);
         SetScoreBoardText("Para comenzar Pulsad ESPACIO");
     }
 
+    public void SetInitialValues()
+    {
+        _centerPoints.SetActive(false);
+        FinishMatch = true;
+        StartGamePlay = false;
+        ScoreBoard[0] = 0;
+        ScoreBoard[1] = 0;
+        BallOnPlay = false;
+        SetRacketInitPosition();
+    }
     public void SetRacketInitPosition()
     {
         _racketObjects[0].transform.position = new Vector2(-64, 0);
@@ -115,5 +121,6 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         BallOnPlay = true;
+        _centerPoints.SetActive(true);
     }
 }
