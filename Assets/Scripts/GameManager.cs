@@ -15,11 +15,18 @@ public class GameManager : MonoBehaviour
             if (_scoreBoard[0] == ScoreObjective ||
                 _scoreBoard[1] == ScoreObjective)
             {
+                Debug.Log("FINALLLL");
+                // Mensaje final de partida
+                string winnerText = (ScoreBoard[0] > ScoreBoard[1]) ?
+                    "JUGADOR 1" : "JUGADOR 2";
+                string finishMessage = $"{ScoreBoard[0]} - {ScoreBoard[1]}\n" +
+                    $"GANADOR: {winnerText}";
                 FinishMatch = true;
                 StartGamePlay = false;
                 ScoreBoard[0] = 0;
                 ScoreBoard[1] = 0;
-                SetScoreBoardText("FINALLLLLLLL");
+                SetScoreBoardText(finishMessage);
+                BallOnPlay = false;
             }
         }
     }
