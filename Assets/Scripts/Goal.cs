@@ -26,7 +26,11 @@ public class Goal : MonoBehaviour
             nextDirection = -1;
         }
         _gameManager.ScoreBoard = scoreBoard;
-        _gameManager.ChangeScoreBoard();
+       
         _gameManager.ResetBallPosition(nextDirection);
+        if (!_gameManager.FinishMatch)
+        {
+            _gameManager.ChangeScoreBoard();
+        }
     }
 }
