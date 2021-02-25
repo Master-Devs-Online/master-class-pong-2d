@@ -68,12 +68,17 @@ public class GameManager : MonoBehaviour
         _scoreBoard[0] = 0;
         _scoreBoard[1] = 0;
         _scoreBoardText = FindObjectOfType<Text>();
-        ChangeScoreBoard();
+        SetScoreBoardText("Para comenzar Pulsad ESPACIO");
+    }
+
+    public void SetScoreBoardText(string text)
+    {
+        _scoreBoardText.text = text;
     }
 
     public void ChangeScoreBoard()
     {
-        _scoreBoardText.text = $"{_scoreBoard[0]}           {_scoreBoard[1]}";
+        SetScoreBoardText($"{_scoreBoard[0]}           {_scoreBoard[1]}");
         BallOnPlay = false;
     }
 
