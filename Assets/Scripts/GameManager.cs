@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] GameObject _centerPoints;
+    [SerializeField] GameObject[] _racketsObjects = new GameObject[2];
     [SerializeField] byte[] _scoreBoard = new byte[2];
     [SerializeField] Ball _ballObject;
     [SerializeField] Text _scoreBoardText;
@@ -15,11 +17,19 @@ public class GameManager : MonoBehaviour
             if (_scoreBoard[0] == ScoreObjective ||
                 _scoreBoard[1] == ScoreObjective)
             {
+                // Preparar mensaje final
+                string winnerText = (ScoreBoard[0] > ScoreBoard[1]) ?
+                    "JUGADOR 1" : "JUGADOR 2";
+                string finishMessage = $"{ScoreBoard[0]} - {ScoreBoard[1]} \n" +
+                    $"GANADOR: {winnerText}";
+                BallOnPlay = false;
                 FinishMatch = true;
                 StartGamePlay = false;
                 ScoreBoard[0] = 0;
                 ScoreBoard[1] = 0;
-                ChangeScoreBoard();
+                SetScoreBoardText(finishMessage);
+                SetRacketInitPosition();
+                _centerPoints.SetActive(false);
             }
         }
     }
@@ -68,12 +78,25 @@ public class GameManager : MonoBehaviour
         _scoreBoard[0] = 0;
         _scoreBoard[1] = 0;
         _scoreBoardText = FindObjectOfType<Text>();
-        ChangeScoreBoard();
+        SetScoreBoardText("Para comenzar Pulsad ESPACIO");
+        SetRacketInitPosition();
+        _centerPoints.SetActive(false);
+    }
+
+    private void SetRacketInitPosition()
+    {
+        _racketsObjects[0].transform.position = new Vector2(-64, 0);
+        _racketsObjects[1].transform.position = new Vector2(64, 0);
+    }
+
+    public void SetScoreBoardText(string text)
+    {
+        _scoreBoardText.text = text;
     }
 
     public void ChangeScoreBoard()
     {
-        _scoreBoardText.text = $"{_scoreBoard[0]}           {_scoreBoard[1]}";
+        SetScoreBoardText($"{_scoreBoard[0]}           {_scoreBoard[1]}");
         BallOnPlay = false;
     }
 
@@ -89,6 +112,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Pulsamos espacio");
             StartGame();
+            _centerPoints.SetActive(true);
         }
     }
 
