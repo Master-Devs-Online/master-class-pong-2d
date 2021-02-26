@@ -2,7 +2,9 @@
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField] float _speed = 30f;
+    [SerializeField] float _startSpeed = 30f;
+    [SerializeField] float _currentSpeed;
+    [SerializeField] float _maxSpeed = 80f;
     private TrailRenderer _trailRenderer;
     private Rigidbody2D _rigidbody2D;
     private GameManager _gameManager;
@@ -22,6 +24,9 @@ public class Ball : MonoBehaviour
         _trailRenderer.emitting = true;
         _trailRenderer.time = 0.2f;
 
+        // Asignamos la velocidad de la pelota para lanzar nueva jugada
+        _currentSpeed = _startSpeed;
+
         if (!_gameManager.StartGamePlay)
         {
             Debug.Log("EMPEZANDO LA PARTIDA POR PRIMERA VEZ");
@@ -40,7 +45,7 @@ public class Ball : MonoBehaviour
 
         }
         _rigidbody2D.velocity =
-            new Vector2(_nextDirection, 0) * _speed;
+            new Vector2(_nextDirection, 0) * _currentSpeed;
     }
 
     public void Reset(sbyte nextDirection)
@@ -82,7 +87,12 @@ public class Ball : MonoBehaviour
 
             Vector2 direction = new Vector2(x, y).normalized;
 
-            _rigidbody2D.velocity = direction * _speed;
+            if (_currentSpeed < _maxSpeed)
+            {
+                _currentSpeed += 2f;
+            }
+
+            _rigidbody2D.velocity = direction * _currentSpeed;
         } 
 
         if (collision.gameObject.tag == "Wall")

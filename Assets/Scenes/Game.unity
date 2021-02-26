@@ -1075,7 +1075,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e37f42fade54763a987973c5aa5489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 30
+  _startSpeed: 30
+  _currentSpeed: 30
+  _maxSpeed: 80
 --- !u!96 &1935840967
 TrailRenderer:
   serializedVersion: 2
@@ -1229,7 +1231,7 @@ MonoBehaviour:
   _scoreBoardText: {fileID: 1822655435}
   _ballOnPlay: 0
   _startGamePlay: 0
-  _scoreObjective: 2
+  _scoreObjective: 10
   _finishMatch: 0
 --- !u!4 &1941272615
 Transform:
