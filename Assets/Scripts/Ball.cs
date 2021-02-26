@@ -3,6 +3,7 @@
 public class Ball : MonoBehaviour
 {
     [SerializeField] float _speed = 30f;
+    private TrailRenderer _trailRenderer;
     private Rigidbody2D _rigidbody2D;
     private GameManager _gameManager;
     private AudioManager _audioManager;
@@ -10,12 +11,17 @@ public class Ball : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _trailRenderer = GetComponent<TrailRenderer>();
         _audioManager = FindObjectOfType<AudioManager>();
         _gameManager = FindObjectOfType<GameManager>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
     public void Launch()
     {
+        // Habilitar rastro de la pelota
+        _trailRenderer.emitting = true;
+        _trailRenderer.time = 0.2f;
+
         if (!_gameManager.StartGamePlay)
         {
             Debug.Log("EMPEZANDO LA PARTIDA POR PRIMERA VEZ");
@@ -41,6 +47,10 @@ public class Ball : MonoBehaviour
     {
         // Paramos la pelota completamente (no se mueve)
         _rigidbody2D.velocity = Vector2.zero;
+
+        // Deshabilitar rastro de la pelota
+        _trailRenderer.emitting = false;
+        _trailRenderer.time = 0f;
 
         // Mover la pelota al punto central
         _rigidbody2D.transform.position = new Vector2(0, 0);
